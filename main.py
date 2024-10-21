@@ -1,6 +1,9 @@
 from PIL import Image, ImageChops
+import os
+import re
 
-SCALE_FACTOR = 8
+SCALE_FACTOR = 4
+NEWPACK_PATH = './new packs/jason pack/'
 
 def resizeImages(sourceImg, mixImg):
 
@@ -12,6 +15,9 @@ def resizeImages(sourceImg, mixImg):
     return sourceSized, mixSized
 
 def mixImages(sourceImg, mixImg):
+    if sourceImg.mode == 1 or sourceImg.mode == '1' or sourceImg.mode == 'LA':
+        return sourceImg
+
     sourceImg, mixImg = resizeImages(sourceImg, mixImg)
 
     if sourceImg.mode == 'L':
@@ -21,10 +27,7 @@ def mixImages(sourceImg, mixImg):
     elif sourceImg.mode == 'RGBA':
         mixImg = mixImg.convert('RGBA')
 
-    print(sourceImg.size,mixImg.size, sourceImg.mode, mixImg.mode)
-
-    sourceImg.show()
-    mixImg.show()
+    # print(sourceImg.size,mixImg.size, sourceImg.mode, mixImg.mode)
 
     mixedImg = ImageChops.multiply(sourceImg, mixImg)
 
@@ -34,15 +37,21 @@ def mixImages(sourceImg, mixImg):
 # god if i know
 
 if __name__ == '__main__':
-    # img1 = Image.open('./example-source pack/assets/minecraft/textures/models/armor/diamond_layer_1.png')
-    img1 = Image.open('./example-source pack/assets/minecraft/textures/block/warped_trapdoor.png')
-    img2 = Image.open('./example-source pack/pack.png')
 
-    print(img1.size,img2.size, img1.mode, img2.mode)
+    mixImg = Image.open('./example-source pack/pack.png')
+    
 
-    img3 = mixImages(img1,img2)
+    for root, dirs, files in os.walk(NEWPACK_PATH + 'assets'):
+        for filename in files:
+            if not re.search(r'\.png$', filename):
+                continue
+            print(f"File: {filename} in {root}")
+            sourceImg = Image.open(root+'/'+filename)
 
-    img3.save('test.png')
-    img3.show()
+
+            mixedImg = mixImages(sourceImg, mixImg)
+
+            mixedImg.save(root+'/'+filename)
+
 
     pass
