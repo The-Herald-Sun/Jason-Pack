@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "description": "What if there were more jason",
+    "pack_format": 18,
+    "supported_formats": [18, 50]
+  }
+}
