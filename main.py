@@ -3,7 +3,7 @@ import os
 import re
 
 SCALE_FACTOR = 4
-NEWPACK_PATH = './new packs/jason pack/'
+NEWPACK_PATH = './new packs/jason screen/'
 
 def resizeImages(sourceImg, mixImg):
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
         for filename in files:
             if not re.search(r'\.png$', filename):
                 continue
-            print(f"File: {filename} in {root}")
+            # print(f"File: {filename} in {root}")
             sourceImg = Image.open(root+'/'+filename)
 
 
